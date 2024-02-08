@@ -1,0 +1,7 @@
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.pdb
