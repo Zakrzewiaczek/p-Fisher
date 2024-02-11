@@ -5,3 +5,10 @@ C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.cspr
 C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
 C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.exe
 C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.pdb
