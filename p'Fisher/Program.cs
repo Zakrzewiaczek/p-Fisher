@@ -217,8 +217,8 @@ namespace p_Fisher
         }
         
         public static readonly string display_name = "pfisher";
-        public static readonly string from_email = "pfisher@onet.eu";
-        public static readonly string password = "JuanPablo2137";
+        public static readonly string from_email = "@onet.eu";
+        public static readonly string password = "";
 
         public void send(string email)
         {
