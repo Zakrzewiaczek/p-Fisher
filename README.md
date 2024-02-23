@@ -70,7 +70,7 @@ You can personalize p'Fisher. How?
   </li><br>
   <li>
     You can change console elements colors using <tt>change_color</tt> command. <br>
-    For more detailed instructions how to use, type <tt>help change_Color</tt> command
+    For more detailed instructions how to use, type <tt>help change_color</tt> command
   </li><br>
   <li>
     You can add your payloads file using <tt>payload add [path] [payload_name]</tt> command. <br>
