@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 
 /*
@@ -144,7 +145,7 @@ namespace p_Fisher
 
             //Prompt
             input_chars = content[6];
-
+            
             //Title
             Console.Title = " " + content[7];
 
@@ -182,6 +183,55 @@ namespace p_Fisher
                 if (output == "help") f.help("");
                 else f.help(output.Replace("help ", ""));
             }
+            
+            else if (output.Contains("payload"))
+            {
+                output = f.replace(output, "payload", "");
+                //output.Replace("payload", "");
+                
+                if (output.Replace(" ", "") == String.Empty) { error("There is no option specified"); f.help("payload"); }
+                else if(output.Contains("add"))
+                {
+                    //payload add C:\payload.exe
+                    //payload remove payload2 [lub] payload
+                    
+                    
+                    output = output.Replace("add", "");
+                    output = output.Replace(" ", "");
+                    
+                    if (output == String.Empty)
+                    {
+                        Console.WriteLine("Opening OpenFileDialog");
+                    }
+                    else
+                    {
+                        //Trzeba odczytać nazwę
+                        Console.WriteLine($"Adding payload {output}");
+                    }
+                }
+                else if (output.Contains("remove"))
+                {
+                    output = output.Replace(" ", "");
+                    
+                    if (output == String.Empty) { error("There is no payload name specified"); f.help("payload"); }
+                    else
+                    {
+                        output = output.Replace("remove", "");
+                        output = output.Replace(" ", "");
+
+                        if (output != String.Empty)
+                        {
+                            Console.WriteLine($"Removing payload: {output}");
+                        }
+                        else { error("There is no payload name specified"); f.help("payload"); }
+                    }
+                }
+                else if (output.Contains("use"))
+                {
+                    Console.WriteLine("Use XXXXXXX");
+                }
+                else { error("Option is not correct"); f.help("payload"); }
+            }
 
             else if (output.Contains("save_preset"))
             {
@@ -212,11 +262,19 @@ namespace p_Fisher
                     }
 
                 }
-                else { error("There is no path specified\r\n"); f.help("save_preset"); }
+                else
+                {
+                    error("There is no path specified\r\n");
+                    f.help("save_preset");
+                }
 
                 if (isPathSpecifed)
                 {
-                    if (!file_path.Contains(".pfs")) { error("File is not correct\r\n"); f.help("save_preset"); }
+                    if (!file_path.Contains(".pfs"))
+                    {
+                        error("File is not correct\r\n");
+                        f.help("save_preset");
+                    }
                     else
                     {
                         try
@@ -227,7 +285,10 @@ namespace p_Fisher
 
                             sw.Close();
                         }
-                        catch (Exception e) { error("Error: " + e.Message); }
+                        catch (Exception e)
+                        {
+                            error("Error: " + e.Message);
+                        }
                     }
                 }
             }
@@ -640,5 +701,69 @@ namespace p_Fisher
             else if(argument == "content") Console.WriteLine("Email content:" + Environment.NewLine + e_mail[1] + Environment.NewLine);
             else if(argument == "sender") Console.WriteLine("Sender: " + from_email + Environment.NewLine);
         }
+
+        public string replace(string value, string oldValue, string newValue)
+        {
+            int place = value.IndexOf(oldValue);
+            
+            if(place != -1) return value.Remove(place, oldValue.Length).Insert(place, newValue);
+
+            return value;
+        }
     }
 }
+
+/*
+
+
+using System;
+using System.Threading;
+
+namespace loading
+{
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                drawTextProgressBar(i, 100, "sending => j.zakrzewiaczek@gmail.com");
+                Thread.Sleep(50);
+            }
+        }
+        
+        public static void drawTextProgressBar(int progress, int total, string process)
+        {
+            //draw empty progress bar
+            Console.CursorLeft = 0;
+            Console.Write("["); //start
+            Console.CursorLeft = 32;
+            Console.Write("]"); //end
+            Console.CursorLeft = 1;
+            float onechunk = 30.0f / total;
+
+            //draw filled part
+            int position = 1;
+            for (int i = 0; i < onechunk * progress; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw unfilled part
+            for (int i = position; i <= 31 ; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw totals
+            Console.CursorLeft = 35;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(progress.ToString() + "% of " + total.ToString() + "% | " + process); //blanks at the end remove any excess
+        }
+    }
+}
+*/
