@@ -1,7 +1,6 @@
 using System;
-using System.IO;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 
 /*
@@ -145,7 +144,7 @@ namespace p_Fisher
 
             //Prompt
             input_chars = content[6];
-            
+
             //Title
             Console.Title = " " + content[7];
 
@@ -183,36 +182,90 @@ namespace p_Fisher
                 if (output == "help") f.help("");
                 else f.help(output.Replace("help ", ""));
             }
-            
+
             else if (output.Contains("payload"))
             {
                 output = f.replace(output, "payload", "");
                 //output.Replace("payload", "");
-                
+
                 if (output.Replace(" ", "") == String.Empty) { error("There is no option specified"); f.help("payload"); }
-                else if(output.Contains("add"))
+                else if (output.Contains("add"))
                 {
                     //payload add C:\payload.exe
                     //payload remove payload2 [lub] payload
-                    
-                    
+
+
                     output = output.Replace("add", "");
                     output = output.Replace(" ", "");
-                    
+
+                    string file_path = "";
+                    bool isPathSpecifed = false;
+
                     if (output == String.Empty)
                     {
-                        Console.WriteLine("Opening OpenFileDialog");
+                        using (OpenFileDialog rFile = new OpenFileDialog())
+                        {
+                            rFile.Filter = "Payload file (*.*)|*.*";
+                            rFile.Title = "Read payload";
+
+                            if (rFile.ShowDialog() == DialogResult.OK)
+                            {
+                                file_path = rFile.FileName;
+                                isPathSpecifed = true;
+                            }
+                        }
                     }
                     else
                     {
-                        //Trzeba odczytać nazwę
-                        Console.WriteLine($"Adding payload {output}");
+                        file_path = output;
+
+                        if (File.Exists(file_path)) { isPathSpecifed = true; }
+                        else { error("File is not correct\r\n"); f.help("payload"); }
+                    }
+
+                    if (isPathSpecifed)
+                    {
+                        Console.WriteLine($"Ścieżka pliku: {file_path}");
+
+                        //File.Copy(file_path, $"payloads\\{Path.GetFileName(file_path)}", true);
+
+                        try
+                        {
+                            using (var sourceStream = new FileStream(file_path, FileMode.Open))
+                            {
+                                using (var destinationStream = new FileStream($"payloads\\{Path.GetFileName(file_path)}", FileMode.Create))
+                                {
+                                    byte[] buffer = new byte[1024 * 1024]; // 1MB buffer
+                                    int bytesRead;
+                                    long totalRead = 0;
+
+                                    while ((bytesRead = sourceStream.Read(buffer, 0, buffer.Length)) > 0)
+                                    {
+                                        destinationStream.Write(buffer, 0, bytesRead);
+                                        totalRead += bytesRead;
+
+                                        int percent = Convert.ToInt32((double)totalRead / sourceStream.Length * 100);
+
+                                        Console.CursorVisible = false;
+                                        f.drawTextProgressBar(percent, 100, "");
+                                    }
+                                }
+                            }
+
+                            Console.WriteLine(" | Payload added successfuly.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($" | \nError: {ex.Message}");
+                        }
+
+                        Console.CursorVisible = true;
                     }
                 }
                 else if (output.Contains("remove"))
                 {
                     output = output.Replace(" ", "");
-                    
+
                     if (output == String.Empty) { error("There is no payload name specified"); f.help("payload"); }
                     else
                     {
@@ -258,9 +311,7 @@ namespace p_Fisher
                             file_path = sFile.FileName;
                             isPathSpecifed = true;
                         }
-                        else isPathSpecifed = false;
                     }
-
                 }
                 else
                 {
@@ -318,7 +369,6 @@ namespace p_Fisher
                             file_path = rFile.FileName;
                             isPathSpecifed = true;
                         }
-                        else isPathSpecifed = false;
                     }
                 }
                 else { error("There is no path specified\r\n"); f.help("save_preset"); }
@@ -391,7 +441,7 @@ namespace p_Fisher
                         catch (Exception) { error("Invalid color"); f.help("change_color"); }
 
                         switch (odpowiedzi[1])
-                        { 
+                        {
                             case "background":
                                 Console.BackgroundColor = color;
                                 Console.Clear();
@@ -423,7 +473,7 @@ namespace p_Fisher
 
             else if (output.Contains("send") && (!output.Contains("sender")))
             {
-                if(output.Replace(" ", "") == "send")
+                if (output.Replace(" ", "") == "send")
                 {
                     string file_path = "";
                     bool isPathSpecifed = false;
@@ -438,7 +488,6 @@ namespace p_Fisher
                             file_path = rFile.FileName;
                             isPathSpecifed = true;
                         }
-                        else isPathSpecifed = false;
                     }
 
                     if (isPathSpecifed)
@@ -460,7 +509,7 @@ namespace p_Fisher
 
                         string[] content = cont.Split('\n');
 
-                        for (int i = 0; i < content.Length; i++) if(content[i] != string.Empty) f.send(content[i]);
+                        for (int i = 0; i < content.Length; i++) if (content[i] != string.Empty) f.send(content[i]);
                         Console.WriteLine();
                     }
                 }
@@ -511,7 +560,7 @@ namespace p_Fisher
         {
             Console.ForegroundColor = Program.output_color;
 
-            switch(funct)
+            switch (funct)
             {
                 case "change_color":
                     Console.WriteLine("\r\nSets console background and objects colors.\r\n\r\nchange_color [object] [Color]\r\n\r\n   object          Element whose color we change\r\n   Color           Specifies color of object\r\n\r\nList of objects that can be changed color:\r\n\r\n   background      Background color (once the color is set, the console is cleared)\r\n   logo            Splash logo color\r\n   text            Color of text written by the user\r\n   output          Console output text color\r\n   error           Errors color\r\n   prompt          Prompt color\r\n\r\nColors can only be normal and dark (e.g. blue and dark blue).\r\n\r\nFor example, command: \"change_color background green\" sets background color to green");
@@ -531,7 +580,7 @@ namespace p_Fisher
                     break;
             }
         }
-        
+
         public static string from_email = "qcwecdgfvsdd@o2.pl";
         public static string password = "JuanPablo2137";
         public static string smtp = "poczta.o2.pl";
@@ -575,89 +624,43 @@ namespace p_Fisher
             else
             {
                 Console.WriteLine($"SMTP {smtp} | {from_email} => {email}");
-                //System.Threading.Thread.Sleep(new Random().Next(200, 850));
 
-                /*
-                string hostSmtp = "poczta.o2.pl";
-                bool enableSsl = true;
-                int port = 465;
-                string senderEmail = "qcwecdgfvsdd@o2.pl";
-                string senderEmailPassword = "JuanPablo2137";
-                string senderName = "API";
-                string recipientEmail = "j.zakrzewiaczek@gmail.com";
-                string subject = "Temat wiadomo�ci";
-                string body = "Tre�� wiadomo�ci";
-                
-                try
+                //Sending e-mail
+
+                /*SmtpClient smtp_client = new SmtpClient()
                 {
-                    using (var smtp = new SmtpClient(hostSmtp))
+                    Host = smtp,
+                    Port = 465,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    EnableSsl = true,
+                    Credentials = new System.Net.NetworkCredential()
                     {
-                        smtp.EnableSsl = enableSsl;
-                        smtp.Port = port;
-                        smtp.Credentials = new NetworkCredential(senderEmail, senderEmailPassword);
-
-                        using (var mail = new MailMessage())
-                        {
-                            mail.From = new MailAddress(senderEmail, senderName);
-                            mail.To.Add(new MailAddress(recipientEmail));
-                            mail.Subject = subject;
-                            mail.Body = body;
-                            mail.IsBodyHtml = true;
-                            mail.BodyEncoding = Encoding.UTF8;
-                            mail.SubjectEncoding = Encoding.UTF8;
-
-                            smtp.Send(mail);
-                            Console.WriteLine("Wiadomo�� e-mail zosta�a wys�ana!");
-                        }
+                        UserName = from_email,
+                        Password = password,
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Wyst�pi� b��d: {ex.Message}");
-                }*/
-
-                /*SmtpClient smtp = new SmtpClient()
-                {
-                   Host = "poczta.o2.pl",
-                   Port = 465,
-                   DeliveryMethod = SmtpDeliveryMethod.Network,
-                   UseDefaultCredentials = false,
-                   EnableSsl = true,
-
-                   Credentials = new NetworkCredential()
-                   {
-                       UserName = from_email.Replace("@o2.pl", ""), //////////
-                       Password = password,
-                   }
                 };
-
                 MailMessage message = new MailMessage()
                 {
                     From = new MailAddress(from_email, from_email.Replace("@o2.pl", "")),
-                    Subject = "Tytu�", //e_mail[0],
-                    Body = "t1\r\nt2\r\nt3\r\nt4" // e_mail[1]
+                    Subject = e_mail[0],
+                    Body = e_mail[1]
                 };
                 message.To.Add(new MailAddress(email));
-
-                //SmtpMail.SmtpServer=smtpServer;
-
-                try 
+                try
                 {
-                   smtp.Send(message);
-                   Console.WriteLine("The email has been successfully sent to the address " + email);
+                    smtp_client.Send(message);
+                    Console.WriteLine("The email has been successfully sent to the address " + email);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                   error("An error occurred while sending the email. Error: " + ex.ToString());
-                }
-
-                Console.WriteLine($"Wiadomo�� wys�ana na adres {email}");
-                Console.WriteLine($"From: {from_email} | Has�o: {password}");*/
+                    error("An error occurred while sending the email. Error: " + ex.ToString());
+                }*/
             }
         }
         public void set(string argument)
         {
-            switch(argument)
+            switch (argument)
             {
                 case "title":
                     Console.WriteLine("Write title of message (Enter saves message title): ");
@@ -697,18 +700,51 @@ namespace p_Fisher
 
         public void get(string argument)
         {
-            if(argument == "title") Console.WriteLine("Title: " + e_mail[0] + Environment.NewLine);
-            else if(argument == "content") Console.WriteLine("Email content:" + Environment.NewLine + e_mail[1] + Environment.NewLine);
-            else if(argument == "sender") Console.WriteLine("Sender: " + from_email + Environment.NewLine);
+            if (argument == "title") Console.WriteLine("Title: " + e_mail[0] + Environment.NewLine);
+            else if (argument == "content") Console.WriteLine("Email content:" + Environment.NewLine + e_mail[1] + Environment.NewLine);
+            else if (argument == "sender") Console.WriteLine("Sender: " + from_email + Environment.NewLine);
         }
 
         public string replace(string value, string oldValue, string newValue)
         {
             int place = value.IndexOf(oldValue);
-            
-            if(place != -1) return value.Remove(place, oldValue.Length).Insert(place, newValue);
+
+            if (place != -1) return value.Remove(place, oldValue.Length).Insert(place, newValue);
 
             return value;
+        }
+
+        public void drawTextProgressBar(int progress, int total, string process)
+        {
+            //draw empty progress bar
+            Console.CursorLeft = 0;
+            Console.Write("["); //start
+            Console.CursorLeft = 32;
+            Console.Write("]"); //end
+            Console.CursorLeft = 1;
+            float onechunk = 30.0f / total;
+
+            //draw filled part
+            int position = 1;
+            for (int i = 0; i < onechunk * progress; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw unfilled part
+            for (int i = position; i <= 31; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.CursorLeft = position++;
+                Console.Write(" ");
+            }
+
+            //draw totals
+            Console.CursorLeft = 35;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(progress.ToString() + "% of " + total.ToString() + "%" + process); //blanks at the end remove any excess
         }
     }
 }
