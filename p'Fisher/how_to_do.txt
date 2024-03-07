@@ -1,0 +1,5 @@
+﻿  How to do?
+
+* Finish payload command
+* Make sending e-mails
+* Add send => email@domain.com | payload {PAYLOAD_NAME} (if you want to send once email with another payload)
