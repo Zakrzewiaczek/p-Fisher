@@ -1,9 +1,17 @@
+#define installer //Comment if you want to use p'Fisher application
+                  //Uncomment if you want to use installer
+
+
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+
 
 /*
+using System.Windows.Media.Converters;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -12,7 +20,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Net.Http;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using System.Windows.Documents;
 using System.Runtime.InteropServices.ComTypes;
@@ -36,23 +43,43 @@ namespace p_Fisher
         public static bool isTitleChanged = false;
 
         [STAThread]
-        static void Main()
+        static void Main() 
         {
-            logo();
+            #if !installer
 
-            if (!isTitleChanged) Console.Title = " p'Fisher";
+                logo();
 
-            while (true)
-            {
-                isTitleChanged = true;
+                if (!isTitleChanged) Console.Title = " p'Fisher";
 
-                string odp = console_input();
-                Console.ForegroundColor = output_color;
-                commands(odp);
-            }
+                //If user press Ctrl + C, the program will not be closed and starts Main() again
+                //Console.CancelKeyPress += (s, e) => { Main(); };
+
+                while (true)
+                {
+                    isTitleChanged = true;
+
+                    string odp = console_input();
+                    Console.ForegroundColor = output_color;
+
+                    try { commands(odp); } catch (Exception) {}
+                }
+
+            #else
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new installer());
+
+            #endif
         }
 
-        static readonly Action logo = () =>
+        static readonly Action<string> error = (content) => 
+        {
+            Console.ForegroundColor = error_color;
+            Console.WriteLine(content);
+            Console.ForegroundColor = text_color;
+        };
+        static readonly Action logo = () => 
         {
             //Console.WriteLine("\r\n\r\n    \r\n\r\n");
             Console.ForegroundColor = logo_color;
@@ -84,24 +111,34 @@ namespace p_Fisher
                 "                                              \r\n            .#%%+                                                       " +
                 "     \r\n            +#%(.       \r\n\r\n");
         };
-
-        static readonly Action<string> error = (content) =>
-        {
-            Console.ForegroundColor = error_color;
-            Console.WriteLine(content);
-            Console.ForegroundColor = text_color;
-        };
-
-        static string console_input()
+        static readonly Func<string> console_input = () =>
         {
             Console.ForegroundColor = prompt_color;
             Console.Write(input_chars);
+
+            Console.ForegroundColor = output_color;
+            string odp = Console.ReadLine();
+
             Console.ForegroundColor = text_color;
 
-            return Console.ReadLine();
-        }
+            return odp;
+        };
+        static readonly Func<string, bool> IsNameValid = (payload) => 
+        {
+            if (payload == string.Empty) return false;
 
-        static void saving_to_file(StreamWriter sw)
+            foreach (char c in payload)
+            {
+                // Sprawdzenie, czy znak jest literą, cyfrą lub znakiem podkreślenia
+                if (!char.IsLetterOrDigit(c) && c != '_')
+                {
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        static void saving_to_file(StreamWriter sw) 
         {
             //Colors
             sw.WriteLine(text_color.ToString());
@@ -132,8 +169,7 @@ namespace p_Fisher
 
             sw.Write(data);
         }
-
-        static void entering_from_file(string line)
+        static void entering_from_file(string line) 
         {
             Console.Clear();
 
@@ -177,7 +213,7 @@ namespace p_Fisher
 
             else if (output == "show_logo") logo();
 
-            else if (output.Contains("help"))
+            else if (output.Contains("help")) 
             {
                 if (output == "help") f.help("");
                 else f.help(output.Replace("help ", ""));
@@ -188,20 +224,21 @@ namespace p_Fisher
                 output = f.replace(output, "payload", "");
                 //output.Replace("payload", "");
 
+                if(!Directory.Exists("payloads")) Directory.CreateDirectory("payloads");
+
                 if (output.Replace(" ", "") == String.Empty) { error("There is no option specified"); f.help("payload"); }
                 else if (output.Contains("add"))
                 {
                     //payload add C:\payload.exe
                     //payload remove payload2 [lub] payload
 
-
                     output = output.Replace("add", "");
                     output = output.Replace(" ", "");
 
-                    string file_path = "";
+                    string file_path = "", payload_name = "";
                     bool isPathSpecifed = false;
 
-                    if (output == String.Empty)
+                    if (output == string.Empty)
                     {
                         using (OpenFileDialog rFile = new OpenFileDialog())
                         {
@@ -257,9 +294,32 @@ namespace p_Fisher
                         catch (Exception ex)
                         {
                             Console.WriteLine($" | \nError: {ex.Message}");
+                            Main();
                         }
 
                         Console.CursorVisible = true;
+
+                        Console.Write("Write payload name (only letters, digits and _ )\n>> ");
+
+                        bool isValid = false;
+                        while (!isValid)
+                        {
+                            payload_name = Console.ReadLine();
+
+                            isValid = IsNameValid(payload_name);
+                            if (!isValid) 
+                            { 
+                                error("Invalid payload name, try again");  
+                                
+                                Console.ForegroundColor = output_color;
+                                Console.Write(">> ");
+                                Console.ForegroundColor = text_color;
+                            }
+                        }
+
+                        Console.WriteLine($"Payload name: {payload_name}");
+
+                        Console.WriteLine($"Payload added successfuly");
                     }
                 }
                 else if (output.Contains("remove"))
@@ -286,7 +346,7 @@ namespace p_Fisher
                 else { error("Option is not correct"); f.help("payload"); }
             }
 
-            else if (output.Contains("save_preset"))
+            else if (output.Contains("save_preset")) 
             {
                 string file_path = "";
 
@@ -344,7 +404,7 @@ namespace p_Fisher
                 }
             }
 
-            else if (output.Contains("read_preset"))
+            else if (output.Contains("read_preset")) 
             {
                 string file_path = "";
 
@@ -403,7 +463,7 @@ namespace p_Fisher
                 }
             }
 
-            else if (output.Contains("powershell"))
+            else if (output.Contains("powershell"))  
             {
                 if (output.Contains(" => ") && output.Replace("powershell =>", string.Empty).Replace(" ", string.Empty) != string.Empty)
                 {
@@ -423,7 +483,7 @@ namespace p_Fisher
                 else { error("There is no command specified\r\n"); f.help("powershell"); }
             }
 
-            else if (output.Contains("change_color"))
+            else if (output.Contains("change_color")) 
             {
                 output = output.Replace("change_color", string.Empty);
 
@@ -532,7 +592,7 @@ namespace p_Fisher
                 else f.set(output);
             }
 
-            else if (output.Contains("get"))
+            else if (output.Contains("get")) 
             {
                 output = output.Replace("get", string.Empty);
                 output = output.Replace(" ", string.Empty);
@@ -544,262 +604,4 @@ namespace p_Fisher
             else { error("Command is not correct\r\n\r\n"); f.help(""); }
         }
     }
-
-    public class funkcje
-    {
-        public static string[] e_mail = { "", "" }; //title, body
-
-        static readonly Action<string> error = (content) =>
-        {
-            Console.ForegroundColor = Program.error_color;
-            Console.WriteLine(content);
-            Console.ForegroundColor = Program.text_color;
-        };
-
-        public void help(string funct)
-        {
-            Console.ForegroundColor = Program.output_color;
-
-            switch (funct)
-            {
-                case "change_color":
-                    Console.WriteLine("\r\nSets console background and objects colors.\r\n\r\nchange_color [object] [Color]\r\n\r\n   object          Element whose color we change\r\n   Color           Specifies color of object\r\n\r\nList of objects that can be changed color:\r\n\r\n   background      Background color (once the color is set, the console is cleared)\r\n   logo            Splash logo color\r\n   text            Color of text written by the user\r\n   output          Console output text color\r\n   error           Errors color\r\n   prompt          Prompt color\r\n\r\nColors can only be normal and dark (e.g. blue and dark blue).\r\n\r\nFor example, command: \"change_color background green\" sets background color to green");
-                    break;
-
-                ///////////
-                //Funkcje
-                ///////////
-
-                case "":
-                    Console.WriteLine("\r\nFor more information on a specific command, type help [command-name]\r\n\r\nCommands:\r\n\r\n   change_color       Changes the colors of elements in the console\r\n   change_prompt      Changes the appearance of the prompt\r\n   change_title       Changes the console title\r\n   clear              Cleans the console\r\n   get                Displays the value of a variable\r\n   help               Displays help\r\n   powershell         Executes the powershell command\r\n   send               Sends a message with a virus to an e-mail address\r\n   set                Sets the value of the variable\r\n   show_logo          Show logo\r\n");
-                    break;
-
-                default:
-                    error("The specified command was not found");
-                    help("");
-                    break;
-            }
-        }
-
-        public static string from_email = "qcwecdgfvsdd@o2.pl";
-        public static string password = "JuanPablo2137";
-        public static string smtp = "poczta.o2.pl";
-
-        public void send(string email)
-        {
-            if (from_email == string.Empty || password == string.Empty)
-            {
-                Console.ForegroundColor = Program.output_color;
-                Console.Write("Enter your email: ");
-
-                Console.ForegroundColor = Program.text_color;
-                from_email = Console.ReadLine();
-
-                Console.ForegroundColor = Program.output_color;
-                Console.Write("Enter your password: ");
-
-                Console.ForegroundColor = Program.text_color;
-                ConsoleKeyInfo key;
-
-                do
-                {
-                    key = Console.ReadKey(true);
-
-                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
-                    {
-                        password += key.KeyChar;
-                        Console.Write("*");
-                    }
-                    else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
-                    {
-                        password = password.Remove(password.Length - 1);
-                        Console.Write("\b \b");
-                    }
-                } while (key.Key != ConsoleKey.Enter);
-                Console.WriteLine();
-
-                send(email);
-            }
-            else if (!email.Contains("@") || !email.Contains(".") || email == string.Empty) error("Invalid email adress");
-            else
-            {
-                Console.WriteLine($"SMTP {smtp} | {from_email} => {email}");
-
-                //Sending e-mail
-
-                /*SmtpClient smtp_client = new SmtpClient()
-                {
-                    Host = smtp,
-                    Port = 465,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    EnableSsl = true,
-                    Credentials = new System.Net.NetworkCredential()
-                    {
-                        UserName = from_email,
-                        Password = password,
-                    }
-                };
-                MailMessage message = new MailMessage()
-                {
-                    From = new MailAddress(from_email, from_email.Replace("@o2.pl", "")),
-                    Subject = e_mail[0],
-                    Body = e_mail[1]
-                };
-                message.To.Add(new MailAddress(email));
-                try
-                {
-                    smtp_client.Send(message);
-                    Console.WriteLine("The email has been successfully sent to the address " + email);
-                }
-                catch (Exception ex)
-                {
-                    error("An error occurred while sending the email. Error: " + ex.ToString());
-                }*/
-            }
-        }
-        public void set(string argument)
-        {
-            switch (argument)
-            {
-                case "title":
-                    Console.WriteLine("Write title of message (Enter saves message title): ");
-                    Console.ForegroundColor = Program.text_color;
-
-                    e_mail[0] = Console.ReadLine();
-
-                    break;
-
-                case "content":
-                    e_mail[1] = "";
-                    string wartosc;
-
-                    Console.WriteLine("Write your message (if you want to save, write ~~ and press Enter): ");
-                    Console.ForegroundColor = Program.text_color;
-
-                    do
-                    {
-                        wartosc = Console.ReadLine();
-
-                        if (wartosc.Contains(@"\~~"))
-                        {
-                            wartosc = wartosc.Replace(@"\~~", "~~");
-                            e_mail[1] += (wartosc + Environment.NewLine);
-
-                            wartosc = "";
-                        }
-                        else if (wartosc != "~~") e_mail[1] += (wartosc + Environment.NewLine);
-
-                        if (wartosc.Contains("~~") && wartosc != "~~") break;
-                    }
-                    while (!wartosc.Contains("~~"));
-
-                    break;
-            }
-        }
-
-        public void get(string argument)
-        {
-            if (argument == "title") Console.WriteLine("Title: " + e_mail[0] + Environment.NewLine);
-            else if (argument == "content") Console.WriteLine("Email content:" + Environment.NewLine + e_mail[1] + Environment.NewLine);
-            else if (argument == "sender") Console.WriteLine("Sender: " + from_email + Environment.NewLine);
-        }
-
-        public string replace(string value, string oldValue, string newValue)
-        {
-            int place = value.IndexOf(oldValue);
-
-            if (place != -1) return value.Remove(place, oldValue.Length).Insert(place, newValue);
-
-            return value;
-        }
-
-        public void drawTextProgressBar(int progress, int total, string process)
-        {
-            //draw empty progress bar
-            Console.CursorLeft = 0;
-            Console.Write("["); //start
-            Console.CursorLeft = 32;
-            Console.Write("]"); //end
-            Console.CursorLeft = 1;
-            float onechunk = 30.0f / total;
-
-            //draw filled part
-            int position = 1;
-            for (int i = 0; i < onechunk * progress; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw unfilled part
-            for (int i = position; i <= 31; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw totals
-            Console.CursorLeft = 35;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(progress.ToString() + "% of " + total.ToString() + "%" + process); //blanks at the end remove any excess
-        }
-    }
 }
-
-/*
-
-
-using System;
-using System.Threading;
-
-namespace loading
-{
-    internal class Program
-    {
-        public static void Main(string[] args)
-        {
-            for (int i = 0; i <= 100; i++)
-            {
-                drawTextProgressBar(i, 100, "sending => j.zakrzewiaczek@gmail.com");
-                Thread.Sleep(50);
-            }
-        }
-        
-        public static void drawTextProgressBar(int progress, int total, string process)
-        {
-            //draw empty progress bar
-            Console.CursorLeft = 0;
-            Console.Write("["); //start
-            Console.CursorLeft = 32;
-            Console.Write("]"); //end
-            Console.CursorLeft = 1;
-            float onechunk = 30.0f / total;
-
-            //draw filled part
-            int position = 1;
-            for (int i = 0; i < onechunk * progress; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw unfilled part
-            for (int i = position; i <= 31 ; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.CursorLeft = position++;
-                Console.Write(" ");
-            }
-
-            //draw totals
-            Console.CursorLeft = 35;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write(progress.ToString() + "% of " + total.ToString() + "% | " + process); //blanks at the end remove any excess
-        }
-    }
-}
-*/
