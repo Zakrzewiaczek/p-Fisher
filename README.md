@@ -97,20 +97,14 @@ You can personalize p'Fisher. How?
   <br>
 </ul>
 
-## Tasks to do
+## Task to do
 
-- [x] Added checklist for deleting and using payload
-- [x] It is possible to use several payloads at the same time
-- [x] Finish payload command
-- [ ] ~~Make <tt>payload unuse _{PAYLOAD_NAME}_ </tt> to unuse payload~~
-- [ ] It is possible to remove several payloads at the same time
-- [ ] Make sending e-mails
-- [ ] Add <tt>send => email@domain.com | payload _{PAYLOAD_NAME}_ </tt> (if you want to send once email with another payload)
-- [ ] <tt>payload configure _{PAYLOAD_NAME}_ </tt> - shows configuration of payload (in console)
+Task to do can be found in the [Issues tab](https://github.com/Zakrzewiaczek/pFisher/issues)
 
-## Errors
+## Errors and new functions ideas
 
-If you see error, please add _new issue_ in _Issue_ tab
+If you see error, please add _new issue_ in [Issues tab](https://github.com/Zakrzewiaczek/pFisher/issues) <br>
+If you have an idea, please pull new request in [Pull requests](https://github.com/Zakrzewiaczek/pFisher/pulls) tab
 
 <br><br>
 # **Enjoy :)**
