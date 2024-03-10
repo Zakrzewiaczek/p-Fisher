@@ -82,9 +82,8 @@
             this.path_txtbox.Location = new System.Drawing.Point(157, 14);
             this.path_txtbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.path_txtbox.Name = "path_txtbox";
-            this.path_txtbox.Size = new System.Drawing.Size(483, 20);
+            this.path_txtbox.Size = new System.Drawing.Size(483, 16);
             this.path_txtbox.TabIndex = 2;
-            this.path_txtbox.Text = "C:\\Users\\jakub.zakrzewski\\Desktop\\Nowy folder";
             this.path_txtbox.TextChanged += new System.EventHandler(this.change_install_enabled);
             // 
             // path_lbl
@@ -93,7 +92,7 @@
             this.path_lbl.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.path_lbl.Location = new System.Drawing.Point(8, 12);
             this.path_lbl.Name = "path_lbl";
-            this.path_lbl.Size = new System.Drawing.Size(125, 20);
+            this.path_lbl.Size = new System.Drawing.Size(101, 17);
             this.path_lbl.TabIndex = 3;
             this.path_lbl.Text = "Installation path";
             // 
@@ -164,7 +163,7 @@
             this.shortcut_in_desktop.AutoSize = true;
             this.shortcut_in_desktop.Location = new System.Drawing.Point(12, 24);
             this.shortcut_in_desktop.Name = "shortcut_in_desktop";
-            this.shortcut_in_desktop.Size = new System.Drawing.Size(195, 23);
+            this.shortcut_in_desktop.Size = new System.Drawing.Size(164, 20);
             this.shortcut_in_desktop.TabIndex = 1;
             this.shortcut_in_desktop.Text = "Create shortcut in desktop";
             this.shortcut_in_desktop.UseVisualStyleBackColor = true;
@@ -174,7 +173,7 @@
             this.menu_start.AutoSize = true;
             this.menu_start.Location = new System.Drawing.Point(12, 53);
             this.menu_start.Name = "menu_start";
-            this.menu_start.Size = new System.Drawing.Size(144, 23);
+            this.menu_start.Size = new System.Drawing.Size(121, 20);
             this.menu_start.TabIndex = 0;
             this.menu_start.Text = "Add to menu start";
             this.menu_start.UseVisualStyleBackColor = true;
@@ -194,7 +193,7 @@
             this.status_lbl.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.status_lbl.Location = new System.Drawing.Point(-1, 80);
             this.status_lbl.Name = "status_lbl";
-            this.status_lbl.Size = new System.Drawing.Size(263, 23);
+            this.status_lbl.Size = new System.Drawing.Size(219, 20);
             this.status_lbl.TabIndex = 11;
             this.status_lbl.Text = "Status: downloading index.json";
             // 
@@ -212,7 +211,7 @@
             this.installation_status_end.Font = new System.Drawing.Font("Microsoft YaHei", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.installation_status_end.Location = new System.Drawing.Point(31, 306);
             this.installation_status_end.Name = "installation_status_end";
-            this.installation_status_end.Size = new System.Drawing.Size(813, 60);
+            this.installation_status_end.Size = new System.Drawing.Size(651, 50);
             this.installation_status_end.TabIndex = 10;
             this.installation_status_end.Text = "Installation completed successfully";
             // 
@@ -224,7 +223,7 @@
             this.open.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.open.Location = new System.Drawing.Point(553, 440);
             this.open.Name = "open";
-            this.open.Size = new System.Drawing.Size(132, 24);
+            this.open.Size = new System.Drawing.Size(108, 21);
             this.open.TabIndex = 10;
             this.open.Text = "Open p\'Fisher";
             this.open.UseVisualStyleBackColor = true;
@@ -247,7 +246,7 @@
             // 
             // installer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(21)))), ((int)(((byte)(21)))));
             this.ClientSize = new System.Drawing.Size(869, 511);
