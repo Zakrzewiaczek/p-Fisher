@@ -103,8 +103,7 @@ Task to do can be found in the [Issues tab](https://github.com/Zakrzewiaczek/pFi
 
 ## Errors and new functions ideas
 
-If you see error, please add _new issue_ in [Issues tab](https://github.com/Zakrzewiaczek/pFisher/issues) <br>
-If you have an idea, please pull new request in [Pull requests](https://github.com/Zakrzewiaczek/pFisher/pulls) tab
+If you see error or have an idea, please add _new issue_ in [Issues tab](https://github.com/Zakrzewiaczek/pFisher/issues) <br>
+<br>
 
-<br><br>
 # **Enjoy :)**
