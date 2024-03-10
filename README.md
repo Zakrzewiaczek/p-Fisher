@@ -101,11 +101,12 @@ You can personalize p'Fisher. How?
 
 - [x] Added checklist for deleting and using payload
 - [x] It is possible to use several payloads at the same time
+- [x] Finish payload command
+- [ ] ~~Make <tt>payload unuse _{PAYLOAD_NAME}_ </tt> to unuse payload~~
 - [ ] It is possible to remove several payloads at the same time
-- [ ] Finish payload command
 - [ ] Make sending e-mails
 - [ ] Add <tt>send => email@domain.com | payload _{PAYLOAD_NAME}_ </tt> (if you want to send once email with another payload)
-- [ ] <tt>payload configure _{NAME}_ </tt> - shows configuration of payload (in console)
+- [ ] <tt>payload configure _{PAYLOAD_NAME}_ </tt> - shows configuration of payload (in console)
 
 ## Errors
 
