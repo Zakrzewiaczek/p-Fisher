@@ -1,6 +1,6 @@
 # p'Fisher
-Tool for sending payloads by e-mail
-<br><br>
+### Tool for sending payloads by e-mail
+<br>
 
 ## Installation
 
@@ -22,6 +22,15 @@ curl -L -o "%USERPROFILE%\Desktop\pFisher.zip" "https://codeload.github.com/Zakr
 ```
 <br>
 
+> [!NOTE]
+> You can also download the program using the installer:
+> <ul>
+>  <li> Change <tt>//#define installer</tt> &nbsp;to: &nbsp;<tt>#define installer</tt> </li>
+>  <li> Compile and run program ***with administrator privileges*** </li>
+> </ul>
+
+<br>
+
 ## Application startup
 
 Go to p'Fisher folder (with Program.cs file)
@@ -38,10 +47,13 @@ Start-Process -NoNewWindow "bin\Debug\p`'Fisher.exe"
   <li> cmd </li>
 </ul>
 
-```bash
+```
 start /B bin\Debug\p'Fisher.exe
 ```
 <br>
+
+> [!TIP]
+> The best solution is to open and compile the program in the IDE
 
 ## Commands
 
@@ -61,9 +73,11 @@ You can personalize p'Fisher. How?
     public static string password = "";
     public static string smtp = "";
   ```
-  You can type your email, password and SMTP server between quotes <br>
-    **Remember to compile after saving file!**
-  </li><br>
+  You can type your email, password and SMTP server between quotes</li>
+  
+  > [!IMPORTANT]
+  > Compile program after saving file!
+  <br>
   <li>
     You can use <tt>save_preset</tt> and <tt>read_preset</tt> commands to making and reading presets! <br>
     For example: you set the email title to "email_title", if you save preset and read in other console, settings will be saved
@@ -75,9 +89,23 @@ You can personalize p'Fisher. How?
   <li>
     You can add your payloads file using <tt>payload add [path] [payload_name]</tt> command. <br>
     If path and payload_name is empty, p'Fisher will show the file selection window and then ask for the payload name. <br><br>
-    For more information, type <tt>help payload</tt>
-  </li>
+  </li> <br>
+
+  > [!NOTE]
+  > For more information, type <tt>help payload</tt>
+
+  <br>
 </ul>
+
+## Tasks to do
+
+- [x] Added checklist for deleting and using payload
+- [x] It is possible to use several payloads at the same time
+- [ ] It is possible to remove several payloads at the same time
+- [ ] Finish payload command
+- [ ] Make sending e-mails
+- [ ] Add <tt>send => email@domain.com | payload _{PAYLOAD_NAME}_ </tt> (if you want to send once email with another payload)
+- [ ] <tt>payload configure _{NAME}_ </tt> - shows configuration of payload (in console)
 
 ## Errors
 
