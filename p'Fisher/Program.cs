@@ -54,9 +54,11 @@ namespace p_Fisher
         [STAThread]
         static void Main()
         {
+            #region p'Fisher program function in Main()
+
             #if !installer
 
-                logo();
+            logo();
 
                 if (!isTitleChanged)
                 {
@@ -72,6 +74,8 @@ namespace p_Fisher
 
                 while (true)
                 {
+                    Console.CursorVisible = true;
+
                     isTitleChanged = true;
 
                     string odp = console_input();
@@ -80,7 +84,12 @@ namespace p_Fisher
                     try { CommandsListChecking(odp); } catch (Exception ex) { error($"Error: {ex.Message}"); }
                 }
 
-            #else
+#endif
+            #endregion
+
+            #region p'Fisher installator function in Main()
+            
+            #if installer
                 var handle = GetConsoleWindow();
                 ShowWindow(handle, SW_HIDE);
 
@@ -88,6 +97,8 @@ namespace p_Fisher
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new installer());
             #endif
+
+            #endregion
         }
 
         #region Functions
@@ -235,55 +246,55 @@ namespace p_Fisher
 
             #region Checking commands
 
-            else if (output.Contains("change_prompt")) 
-            { 
-                input_chars = output.Replace("change_prompt ", string.Empty); 
+            else if (output.Contains("change_prompt"))
+            {
+                input_chars = output.Replace("change_prompt ", string.Empty);
 
-                if (input_chars == "change_prompt" || input_chars == string.Empty) 
-                { 
-                    input_chars = "$~ "; 
-                } 
+                if (input_chars == "change_prompt" || input_chars == string.Empty)
+                {
+                    input_chars = "$~ ";
+                }
             }
-            else if (output.Contains("change_title")) 
-            { 
-                Console.Title = " " + output.Replace("change_title ", string.Empty); 
-                
-                if (Console.Title == "change_title" || Console.Title == string.Empty) 
-                { 
-                    Console.Title = " " + "p'Fisher"; 
-                } 
+            else if (output.Contains("change_title"))
+            {
+                Console.Title = " " + output.Replace("change_title ", string.Empty);
+
+                if (Console.Title == "change_title" || Console.Title == string.Empty)
+                {
+                    Console.Title = " " + "p'Fisher";
+                }
             }
             else if (output.Contains("change_color"))
             {
                 output = output.Replace("change_color", string.Empty);
 
-                if (output == string.Empty) 
-                { 
-                    error("Too many or too few values were entered"); 
-                    Funkcje.Help("change_color"); 
+                if (output == string.Empty)
+                {
+                    error("Too many or too few values were entered");
+                    Funkcje.Help("change_color");
                 }
                 else
                 {
                     string[] odpowiedzi = output.Split(' ');
 
-                    if (odpowiedzi[1] == string.Empty || odpowiedzi[2] == string.Empty || odpowiedzi.Length != 3) 
-                    { 
-                        error("Too many or too few values were entered"); 
-                        Funkcje.Help("change_color"); 
+                    if (odpowiedzi[1] == string.Empty || odpowiedzi[2] == string.Empty || odpowiedzi.Length != 3)
+                    {
+                        error("Too many or too few values were entered");
+                        Funkcje.Help("change_color");
                     }
                     else
                     {
                         ConsoleColor color = new ConsoleColor();
 
-                        try 
-                        { 
+                        try
+                        {
                             //Conversing string to ConsoleColor
-                            color = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), odpowiedzi[2], true); 
+                            color = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), odpowiedzi[2], true);
                         }
-                        catch (Exception) 
-                        { 
-                            error("Invalid color"); 
-                            Funkcje.Help("change_color"); 
+                        catch (Exception)
+                        {
+                            error("Invalid color");
+                            Funkcje.Help("change_color");
                         }
 
                         #region Changing colors of elements
@@ -321,11 +332,11 @@ namespace p_Fisher
                 }
             }
 
-            else if (output == "clear") Console.Clear();
+            else if (output == "clear") 
+                Console.Clear();
+
             else if (output == "exit") 
-            {
                 Environment.Exit(0);
-            }
 
             else if (output == "show_logo") logo();
 
@@ -786,146 +797,214 @@ namespace p_Fisher
                 }
                 else if (output.Contains("use"))
                 {
-                    output = Funkcje.Replace(output, "use", "");
-                    payload.Clear();
+                    int payload_count = Directory.GetFiles("payloads", "*.*").Length;
 
-                    if (output.Replace(" ", "") == string.Empty)
+                    if (payload_count == 0) 
                     {
-                        string[] files;
-
-                        files = Directory.GetFiles("payloads", "*.*");
-
-                        files[files.Length - 1] = "OK";
-
-                        if (files.Length == 1) {
-                            Console.WriteLine("There is no payload to delete");
-                        }
-                        else
-                        {
-                            bool[] isChecked = new bool[files.Length - 1];
-                            for (int i = 0; i < isChecked.Length; i++) isChecked[i] = false;
-
-                            Console.WriteLine("Select payload you want to use: \n");
-                            Console.WriteLine("   * Payloads\n");
-
-                            ////////////////////////////////////////////////
-
-                            for (int i = 0; i < files.Length; i++)
-                            {
-                                if (i == files.Length - 1) {
-                                    Console.Write("\n     OK");
-                                }
-                                else {
-                                    Console.WriteLine("     " + Path.GetFileNameWithoutExtension(files[i]));
-                                }
-                            }
-                            Console.WriteLine();
-
-                            int wybrane = 1, offset = Console.CursorTop - files.Length - 1;
-
-                            Console.CursorVisible = false;
-                            Funkcje.DrawMenuMarker(1, files.Length, offset, ">>");
-
-                            while (true)
-                            {
-                                bool isChanged = false;
-
-                                if (Console.KeyAvailable)
-                                {
-                                    ConsoleKeyInfo key = Console.ReadKey(true);
-
-                                    if (key.Key == ConsoleKey.UpArrow)
-                                    {
-                                        if (wybrane > 1) { wybrane--; isChanged = true; }
-                                        if (wybrane == files.Length) { wybrane--; isChanged = true; }
-                                    }
-                                    else if (key.Key == ConsoleKey.DownArrow)
-                                    {
-                                        if (wybrane < files.Length) { wybrane++; isChanged = true; }
-                                        if (wybrane == files.Length) { wybrane++; isChanged = true; }
-                                    }
-                                    else if (key.Key == ConsoleKey.Enter)
-                                    {
-                                        if (wybrane - 1 == files.Length)
-                                        {
-                                            Console.CursorLeft = 0;
-                                            Console.CursorTop = offset + files.Length - 1;
-
-                                            Console.WriteLine("\nSelected payloads: \n");
-
-                                            for (int i = 0; i < files.Length - 1; i++)
-                                            {
-                                                string name = Path.GetFileNameWithoutExtension(files[i]);
-
-                                                if (isChecked[i])
-                                                {
-                                                    payload.Add(name);
-                                                    Console.WriteLine($"*  {name}");
-                                                }
-                                            }
-
-                                            Console.WriteLine();
-
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            isChecked[wybrane - 1] = !isChecked[wybrane - 1];
-
-                                            Console.CursorTop--;
-                                            Console.CursorLeft = 3;
-
-                                            Console.Write(isChecked[wybrane - 1] ? "*" : " ");
-                                        }
-                                    }
-
-                                    if (isChanged) {
-                                        Funkcje.DrawMenuMarker(wybrane, files.Length, offset, ">>");
-                                    }
-                                }
-                            }
-                        }
+                        Console.WriteLine("\nPayload list is empty!\n");
                     }
                     else
                     {
-                        string[] payloads = output.Split(',');
+                        output = Funkcje.Replace(output, "use", "");
+                        payload.Clear();
 
-                        if (payloads.Length > 1)
+                        if (output.Replace(" ", "") == string.Empty)
                         {
-                            foreach (string elem in payloads)
-                            {
-                                if (!isFileExist(elem.Trim()))
-                                {
-                                    error($"Payload called \"{elem.Trim()}\" is not exist");
-                                    Console.ForegroundColor = output_color;
-                                }
-                                else {
-                                    payload.Add(elem.Trim());
-                                }
-                            }
+                            payload_count = Directory.GetFiles("payloads", "*.*").Length;
 
-                            Console.WriteLine("Selected payloads: \n");
-                            foreach (string elem in payload) {
-                                Console.WriteLine($"*  {elem}");
+                            string[] files;
+
+                            files = Directory.GetFiles("payloads", "*.*");
+                            files[files.Length - 1] = "OK";
+
+                            if (files.Length == 1) 
+                            {
+                                Console.WriteLine("There is no payload to delete");
                             }
-                            Console.WriteLine();
+                            else
+                            {
+                                bool isOKEnabled = false;
+
+                                bool[] isChecked = new bool[files.Length - 1];
+                                for (int i = 0; i < isChecked.Length; i++) isChecked[i] = false;
+
+                                Console.WriteLine("Select payload you want to use: \n");
+                                Console.WriteLine("   * Payloads\n");
+
+                                ////////////////////////////////////////////////
+
+                                #region Write all elements from files without "OK" (all payloads names)
+
+                                foreach (string file in files)
+                                {
+                                    if(file != "OK") 
+                                        Console.WriteLine("     " + Path.GetFileNameWithoutExtension(file));
+                                }
+                                Console.WriteLine("\n");
+
+                                #endregion
+
+                                int wybrane = 1, offset = Console.CursorTop - files.Length - 1;
+
+                                Console.CursorVisible = false;
+                                Funkcje.DrawMenuMarker(1, files.Length, offset, ">>");
+
+                                while (true)
+                                {
+                                    bool isChanged = false;
+
+                                    if (Console.KeyAvailable)
+                                    {
+                                        ConsoleKeyInfo key = Console.ReadKey(true);
+
+                                        if (key.Key == ConsoleKey.UpArrow)
+                                        {
+                                            if (wybrane > 1) { wybrane--; isChanged = true; }
+
+                                            if (isOKEnabled)
+                                            {
+                                                if (wybrane == files.Length) { wybrane--; isChanged = true; }
+                                            }
+                                        }
+                                        else if (key.Key == ConsoleKey.DownArrow)
+                                        {
+                                            if(isOKEnabled)
+                                            {
+                                                if (wybrane < files.Length) { wybrane++; isChanged = true; }
+                                                if (wybrane == files.Length) { wybrane++; isChanged = true; }
+                                            }
+                                            else
+                                            {
+                                                if (wybrane < files.Length - 1) { wybrane++; isChanged = true; }
+                                            }
+                                        }
+                                        else if (key.Key == ConsoleKey.Enter)
+                                        {
+                                            if (wybrane - 1 == files.Length)
+                                            {
+                                                //Select payloads only if at least one payload is selected
+                                                if (isOKEnabled)
+                                                {
+                                                    Console.CursorLeft = 0;
+                                                    Console.CursorTop = offset + files.Length - 1;
+
+                                                    Console.WriteLine("\nSelected payloads: \n");
+
+                                                    for (int i = 0; i < files.Length - 1; i++)
+                                                    {
+                                                        string name = Path.GetFileNameWithoutExtension(files[i]);
+
+                                                        if (isChecked[i])
+                                                        {
+                                                            payload.Add(name);
+                                                            Console.WriteLine($"*  {name}");
+                                                        }
+                                                    }
+
+                                                    Console.WriteLine();
+
+                                                    break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                isChecked[wybrane - 1] = !isChecked[wybrane - 1];
+
+                                                Console.CursorTop = offset + wybrane - 1;
+                                                Console.CursorLeft = 3;
+
+                                                Console.Write(isChecked[wybrane - 1] ? "*" : " ");
+                                            }
+
+                                            #region changing isOKEnabled
+
+                                            isOKEnabled = false;
+
+                                            foreach (bool elem in isChecked)
+                                            {
+                                                if (elem) isOKEnabled = true;
+                                            }
+
+                                            #endregion
+
+                                            #region Drawing / removing "OK" 
+
+                                            //Drawing "OK"
+                                            if (isOKEnabled)
+                                            {
+                                                Console.CursorLeft = 5;
+                                                Console.CursorTop = offset + files.Length;
+
+                                                Console.Write("OK");
+                                            }
+
+                                            //Removing "OK"
+                                            else
+                                            {
+                                                Console.CursorLeft = 5;
+                                                Console.CursorTop = offset + files.Length;
+
+                                                Console.Write("  ");
+                                            }
+
+                                            #endregion
+                                        }
+
+                                        if (isChanged)
+                                            Funkcje.DrawMenuMarker(wybrane, files.Length, offset, ">>");
+                                    }
+                                }
+                            }
                         }
-                        else if (isFileExist(output.Trim())) { payload.Add(output.Trim()); Console.WriteLine($"Selected payload: {output.Trim()}\n"); }
-                        else {
-                            error($"Payload called \"{output.Trim()}\" is not exist");
+                        else
+                        {
+                            string[] payloads = output.Split(',');
+
+                            if (payloads.Length > 1)
+                            {
+                                foreach (string elem in payloads)
+                                {
+                                    if (!isFileExist(elem.Trim()))
+                                    {
+                                        error($"Payload called \"{elem.Trim()}\" is not exist");
+                                        Console.ForegroundColor = output_color;
+                                    }
+                                    else {
+                                        payload.Add(elem.Trim());
+                                    }
+                                }
+
+                                Console.WriteLine("Selected payloads: \n");
+                                foreach (string elem in payload) {
+                                    Console.WriteLine($"*  {elem}");
+                                }
+                                Console.WriteLine();
+                            }
+                            else if (isFileExist(output.Trim())) { payload.Add(output.Trim()); Console.WriteLine($"Selected payload: {output.Trim()}\n"); }
+                            else {
+                                error($"Payload called \"{output.Trim()}\" is not exist");
+                            }
                         }
                     }
                 }
                 else if (output.Trim() == "list")
                 {
-                    Console.WriteLine("Payloads: \n");
-
                     string[] files = Directory.GetFiles("payloads", "*.*");
-                    foreach (string file in files) {
-                        Console.WriteLine("  " + Path.GetFileNameWithoutExtension(file));
-                    }
 
-                    Console.WriteLine();
+                    if(files.Length == 0)
+                    {
+                        Console.WriteLine("\nEmpty\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Payloads: \n");
+
+                        foreach (string file in files) {
+                            Console.WriteLine("  " + Path.GetFileNameWithoutExtension(file));
+                        }
+
+                        Console.WriteLine();
+                    }
                 }
 
                 else { error("Option is not correct"); Funkcje.Help("payload"); }
