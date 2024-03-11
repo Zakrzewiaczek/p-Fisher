@@ -3,11 +3,11 @@
   <br>
   <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="Markdownify" width="200"></a>
   <br>
-  Markdownify
+  p'Fisher
   <br>
 </h1>
 
-<h4 align="center">A powerful tool for sending phishing emails (in <a href="https://github.com/search?q=language%3Ac%23&type=repositories" target="_blank">C#</a>).</h4>
+<h4 align="center">A powerful tool for sending phishing emails (write in <a href="https://github.com/search?q=language%3Ac%23&type=repositories" target="_blank">C#</a>).</h4>
 
 <!-- do zmiany na aktualne informacje -->
 <p align="center">
