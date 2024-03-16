@@ -11,12 +11,11 @@
 
 <!-- do zmiany na aktualne informacje -->
 <p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <a href="#installation">Installation</a> •
+  <a href="#application-startup">Application startup</a> •
+  <a href="#commands">Commands</a> •
+  <a href="https://github.com/Zakrzewiaczek/pFisher/issues">Task To Do</a> •
+  <a href="https://github.com/Zakrzewiaczek/pFisher/issues">Errors and new functions ideas</a>
 </p>
 
 <!--![screenshot](https://github.com/Zakrzewiaczek/pFisher/blob/main/logo_noBackground.png)-->
