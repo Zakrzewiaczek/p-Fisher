@@ -14,7 +14,8 @@
   <a href="#installation">Installation</a> •
   <a href="#application-startup">Application startup</a> •
   <a href="#commands">Commands</a> •
-  <a href="https://github.com/Zakrzewiaczek/pFisher/issues">Task To Do</a> •
+  <a href="#personalize-pfisher">Personalize p'Fisher</a> •
+  <a href="https://github.com/Zakrzewiaczek/pFisher/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement">Task To Do</a> •
   <a href="https://github.com/Zakrzewiaczek/pFisher/issues">Errors and new functions ideas</a>
 </p>
 
