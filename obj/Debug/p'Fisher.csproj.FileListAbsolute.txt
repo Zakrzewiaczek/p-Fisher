@@ -1,0 +1,43 @@
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\visual studio\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\p-Fisher\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.GenerateResource.cache
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p_Fisher.Properties.Resources.resources
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p_Fisher.installer.resources
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\Interop.IWshRuntimeLibrary.dll
+C:\Users\jakub.zakrzewski\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.ResolveComReference.cache
+C:\Users\jzakr\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jzakr\Desktop\p'Fisher\obj\Debug\Interop.IWshRuntimeLibrary.dll
+C:\Users\jzakr\Desktop\p'Fisher\obj\Debug\p'Fisher.csproj.ResolveComReference.cache
+C:\Users\jzakr\Desktop\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.csproj.AssemblyReference.cache
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\Interop.IWshRuntimeLibrary.dll
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.csproj.ResolveComReference.cache
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\bin\Debug\p'Fisher.exe.config
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\bin\Debug\p'Fisher.exe
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\bin\Debug\p'Fisher.pdb
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p_Fisher.installer.resources
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p_Fisher.Properties.Resources.resources
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.csproj.GenerateResource.cache
+C:\Users\jzakr\Desktop\Avast off\p'Fisher\obj\Debug\p'Fisher.csproj.CoreCompileInputs.cache
